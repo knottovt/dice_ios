@@ -17,9 +17,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var diceImageViewThree: UIImageView!
     @IBOutlet weak var rollButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
-    @IBOutlet weak var prevSum: UILabel!
+    @IBOutlet weak var prevSumLabel: UILabel!
     
     var isReset = false
+    var sumText = ["-", "-"]
     let imageName = ["DiceOne", "DiceTwo", "DiceThree", "DiceFour", "DiceFive", "DiceSix"]
     
     override func viewDidLoad() {
@@ -50,6 +51,7 @@ class ViewController: UIViewController {
     
     func reset() {
         self.isReset = true
+        self.sumText = ["-", "-"]
         self.setDice(4, 4, 4)
     }
     
@@ -58,17 +60,13 @@ class ViewController: UIViewController {
         
         if self.isReset {
             self.sumLabel.text = "Let Roll!"
-            self.prevSum.text = "Prev: - "
         } else {
-            if self.sumLabel.text == "Let Roll!" {
-                self.prevSum.text = "Prev: - "
-            } else {
-                self.prevSum.text = "Prev: " + (self.sumLabel.text ?? "-")
-            }
-            
-            self.sumLabel.text = String(sum)
+            self.sumText[0] = self.sumText[1]
+            self.sumText[1] = String(sum)
+            self.sumLabel.text = self.sumText[1]
         }
         
+        self.prevSumLabel.text = "Prev: " + self.sumText[0]
         self.diceImageViewOne.image = UIImage(named: imageName[one - 1])
         self.diceImageViewTwo.image = UIImage(named: imageName[two - 1])
         self.diceImageViewThree.image = UIImage(named: imageName[three - 1])
